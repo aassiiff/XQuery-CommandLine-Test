@@ -1,0 +1,15 @@
+for $xsams in collection('nRHuD-X9acxItEFxGFvhVfY1.dbxml')/XSAMSData/Species/Atoms/Atom 
+for $radTrans in collection('nRHuD-X9acxItEFxGFvhVfY1.dbxml')/XSAMSData/Processes 
+for $stateID in $xsams/Isotope/Ion/AtomicState/@stateID 
+for $lowerStateRef in $radTrans/Radiative/RadiativeTransition[LowerStateRef=$stateID] 
+let $NuclearCharge := $xsams/ChemicalElement/NuclearCharge 
+let $MassNumber := $xsams/Isotope/IsotopeParameters/MassNumber 
+let $InChIKey := $xsams/Isotope/Ion/InChIKey 
+ let $NuclearSpin := $xsams/Isotope/IsotopeParameters/NuclearSpin 
+let $InChI := $xsams/Isotope/Ion/InChI 
+let $UpperStateRef :=  $lowerStateRef/*/UpperStateRef 
+let $Mass := $xsams/Isotope/IsotopeParameters/Mass/Value 
+let $Energy :=  $lowerStateRef/*/Energy/Value 
+ let $speciesID := $xsams/Isotope/Ion/@speciesID 
+ where $xsams/Isotope/Ion/AtomicState/@stateID=$stateID 
+return concat($NuclearCharge, ",", $MassNumber, ",", $InChIKey, ",", $NuclearSpin, ",", $InChI, ",", $UpperStateRef, ",", $Mass, ",", $Energy, ",", $speciesID)
